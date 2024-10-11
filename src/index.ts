@@ -1,13 +1,21 @@
-import { createServer } from 'node:http';
-import {message} from './helper.js'
+import express, { Request, Response } from 'express';
 
-// server.mjs
-const server = createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end(message);
+const app = express();
+
+// Define a route for the root URL '/'
+app.get('/', (req: Request, res: Response) => {
+    // Redirect to another page
+    res.redirect('myapp://openPage');
 });
-// starts a simple http server locally on port 3000
-server.listen(3000, '127.0.0.1', () => {
-  console.log('Listening on 127.0.0.1:3000');
+
+// Define a route for the new page '/new-page'
+app.get('/new-page', (req: Request, res: Response) => {
+    // Send a simple response to the new page
+    res.send('Welcome to the redirect page!');
+    res.status(200);
 });
-// run with `node server.mjs`
+
+// Start the server and listen on port 3000
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
